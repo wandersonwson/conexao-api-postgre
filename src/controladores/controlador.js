@@ -1,4 +1,4 @@
-import { conexaoClient, conexaoPool } from "../conexao/conexao_pg.js";
+import { conexaoClient, conexaoPool } from "../conexoes/conexao_pg.js";
 async function buscarEmpresas(request, response) {
     try {
         await conexaoClient.connect();
