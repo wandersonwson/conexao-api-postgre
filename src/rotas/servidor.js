@@ -20,4 +20,37 @@ app.get("/pool", async (request, response) => {
         return response.json(error.message);
     }
 });
+app.get("/empresas/:id", async (request, response) => {
+    const { id } = request.params;
+    try {
+        const query = "select * from empresas where id = $1";
+        const params = [id];
+        const resultado = await conexaoPool.query(query, params);
+        return response.json(resultado.rows[0]);
+    } catch (error) {
+        return response.json(error.message);
+    }
+});
+app.get("/filiais/:id", async (request, response) => {
+    const { id } = request.params;
+    try {
+        const query = "select * from filiais where id = $1";
+        const params = [id];
+        const resultado = await conexaoPool.query(query, params);
+        return response.json(resultado.rows[0]);
+    } catch (error) {
+        return response.json(error.message);
+    }
+});
+app.get("/pessoas/:id", async (request, response) => {
+    const { id } = request.params;
+    try {
+        const query = "select * from pessoas where id = $1";
+        const params = [id];
+        const resultado = await conexaoPool.query(query, params);
+        return response.json(resultado.rows[0]);
+    } catch (error) {
+        return response.json(error.message);
+    }
+});
 export default app;
