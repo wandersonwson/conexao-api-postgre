@@ -1,10 +1,11 @@
 import express from "express";
 import { buscarEmpresaPorID, buscarEmpresas, buscarFiliais, buscarFilialPorID, buscarPessoaPorID } from "../controladores/controlador.js";
+import { validarID } from "../filtros/intermediario.js";
 const app = express();
 app.use(express.json());
 app.get("/client", buscarEmpresas);
 app.get("/pool", buscarFiliais);
-app.get("/empresas/:id", buscarEmpresaPorID);
-app.get("/filiais/:id", buscarFilialPorID);
-app.get("/pessoas/:id", buscarPessoaPorID);
+app.get("/empresas/:id", validarID, buscarEmpresaPorID);
+app.get("/filiais/:id", validarID, buscarFilialPorID);
+app.get("/pessoas/:id", validarID, buscarPessoaPorID);
 export default app;
