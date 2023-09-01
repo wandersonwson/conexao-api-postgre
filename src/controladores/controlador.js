@@ -17,6 +17,25 @@ async function buscarFiliais(request, response) {
         return response.json(error.message);
     }
 }
+async function buscarPessoasComPaginacao(request, response) {
+    const { pagina, registros } = request.query;
+    const offset = (pagina === 1) ? 0 : (pagina-1)*registros;
+    try {
+        const query = "select * from pessoas order by id asc limit $1 offset $2";
+        const params = [registros, offset];
+        const { rowCount } = await conexaoPool.query("select * from pessoas");
+        const resultado = await conexaoPool.query(query, params);
+        const resposta = {
+            pagina,
+            numRegistros: registros,
+            total: rowCount,
+            registros: resultado.rows
+        };
+        return response.json(resposta);
+    } catch (error) {
+        return response.json(error.message);
+    }
+}
 async function buscarEmpresaPorID(request, response) {
     const { id } = request.params;
     try {
@@ -50,7 +69,7 @@ async function buscarPessoaPorID(request, response) {
         return response.json(error.message);
     }
 }
-async function buscarInnerJoin(request, response) {
+async function buscarDadosComJoin(request, response) {
     try {
         const query = `
             select e.nome as empresa, f.id as filial, p.nome, f.cidade, f.estado, f.pais
@@ -70,5 +89,6 @@ export {
     buscarEmpresaPorID,
     buscarFilialPorID,
     buscarPessoaPorID,
-    buscarInnerJoin
+    buscarDadosComJoin,
+    buscarPessoasComPaginacao
 };

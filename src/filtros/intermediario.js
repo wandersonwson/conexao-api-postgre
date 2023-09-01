@@ -5,4 +5,16 @@ function validarID(request, response, next) {
     }
     next();
 }
-export { validarID };
+function validarPaginacao(request, response, next) {
+    const { pagina, registros } = request.query;
+    if(pagina && registros) {
+        if(isNaN(Number(pagina))) {
+            return response.status(400).json({erro: "Página inválida"});
+        }
+        if(isNaN(Number(registros))) {
+            return response.status(400).json({erro: "Número de registros inválido"});
+        }
+    }
+    next()
+}
+export { validarID, validarPaginacao };
