@@ -1,5 +1,5 @@
 import express from "express";
-import { buscarEmpresaPorID, buscarEmpresas, buscarFiliais, buscarFilialPorID, buscarPessoaPorID } from "../controladores/controlador.js";
+import { buscarEmpresaPorID, buscarEmpresas, buscarFiliais, buscarFilialPorID, buscarInnerJoin, buscarPessoaPorID } from "../controladores/controlador.js";
 import { validarID } from "../filtros/intermediario.js";
 const app = express();
 app.use(express.json());
@@ -8,4 +8,5 @@ app.get("/pool", buscarFiliais);
 app.get("/empresas/:id", validarID, buscarEmpresaPorID);
 app.get("/filiais/:id", validarID, buscarFilialPorID);
 app.get("/pessoas/:id", validarID, buscarPessoaPorID);
+app.get("/innerJoin", buscarInnerJoin);
 export default app;

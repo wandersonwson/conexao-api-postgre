@@ -50,10 +50,25 @@ async function buscarPessoaPorID(request, response) {
         return response.json(error.message);
     }
 }
+async function buscarInnerJoin(request, response) {
+    try {
+        const query = `
+            select e.nome as empresa, f.id as filial, p.nome, f.cidade, f.estado, f.pais
+            from empresas e
+            join filiais f on e.id = f.empresa_id
+            join pessoas p on e.id = p.empresa_id;
+        `;
+        const resultado = await conexaoPool.query(query);
+        return response.json(resultado.rows);
+    } catch (error) {
+        return response.json(error.message);
+    }
+}
 export {
     buscarEmpresas,
     buscarFiliais,
     buscarEmpresaPorID,
     buscarFilialPorID,
-    buscarPessoaPorID
+    buscarPessoaPorID,
+    buscarInnerJoin
 };
